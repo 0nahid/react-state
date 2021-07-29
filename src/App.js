@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useEffect } from "react";
+import { useState } from "react/cjs/react.development";
+import "./App.css";
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Users></Users>
       </header>
+    </div>
+  );
+}
+function Users() {
+  const [user, setUser] = useState([]);
+  useEffect(() =>
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((data) => setUser(data))
+  );
+  return (
+    <div style={{ color: "white", textAlign: "center" }}>
+      <h3> Dynamic Data {user.length} </h3>
+      {user.map((user) => (
+        <div className="counterBtn">
+          <h1>Name: {user.name}</h1>
+          <h4>Mail :{user.email}</h4>
+          <h4>Phone: {user.phone}</h4>
+          <h5>
+            {" "}
+            Address :{" "}
+            {`City :${user.address.city} , Street :${user.address.street} `}{" "}
+          </h5>
+        </div>
+      ))}
     </div>
   );
 }
